@@ -42,7 +42,7 @@ CORS_ALLOWED_ORIGINS = ast.literal_eval(config("CORS_ALLOWED_ORIGINS")) or []
 # Application definition
 
 INSTALLED_APPS = [
-    "daphne",
+    "django_daisy",
     "whitenoise.runserver_nostatic",
     "drf_spectacular",
     'django.contrib.admin',
@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "django.contrib.humanize",  
     "rest_framework",
     "drf_yasg",
     "rest_framework.authtoken",
@@ -58,7 +59,9 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist",
-    "users"
+    "users",
+    "categories",
+    "products",
 ]
 
 AUTH_USER_MODEL ='users.User'
