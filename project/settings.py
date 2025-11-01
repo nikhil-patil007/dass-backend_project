@@ -36,13 +36,14 @@ DEBUG = config("DEBUG", "false").lower() == "true"
 
 ALLOWED_HOSTS = ast.literal_eval(config("ALLOW_HOST_IP")) or ["localhost"]
 
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = ast.literal_eval(config("CORS_ALLOWED_ORIGINS")) or []
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    "django_daisy",
+    "django_daisy",  # this is theme app
     "whitenoise.runserver_nostatic",
     "drf_spectacular",
     'django.contrib.admin',
@@ -51,7 +52,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "django.contrib.humanize",  
+    "django.contrib.humanize",  # this is theme app
+    "corsheaders",
     "rest_framework",
     "drf_yasg",
     "rest_framework.authtoken",
@@ -79,11 +81,13 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'project.urls'
+WSGI_APPLICATION = "project.wsgi.application"
+ASGI_APPLICATION = "project.asgi.application"
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        "DIRS": [os.path.join(BASE_DIR, "frontend_build")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -175,7 +179,9 @@ USE_TZ = True
 
 # Static and Media
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "frontend_build/assets"),
+]
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
@@ -209,4 +215,11 @@ SPECTACULAR_SETTINGS = {
     "SWAGGER_UI_DIST": "SIDECAR",
     "SWAGGER_UI_FAVICON_HREF": "SIDECAR",
     "REDOC_DIST": "SIDECAR",
+}
+
+
+DAISY_SETTINGS = {
+    # Example defaults (customize based on the package docs)
+    "theme": "light",
+    "enable_custom_styles": True,
 }

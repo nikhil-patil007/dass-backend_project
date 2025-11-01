@@ -32,7 +32,7 @@ class Product(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name_plural = "Jewellery Products"
+        verbose_name_plural = "Products"
         ordering = ['name']
 
     def __str__(self):
