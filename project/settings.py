@@ -43,19 +43,21 @@ CORS_ALLOWED_ORIGINS = ast.literal_eval(config("CORS_ALLOWED_ORIGINS")) or []
 # Application definition
 
 INSTALLED_APPS = [
-    "django_daisy",  # this is theme app
+    # "django_daisy",  # this is theme app
     "whitenoise.runserver_nostatic",
-    "drf_spectacular",
+    # Jazzmin provides a modern, customizable admin UI. Insert before default admin.
+    "jazzmin",
+    # "drf_spectacular",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "django.contrib.humanize",  # this is theme app
+    # "django.contrib.humanize",  # this is theme app
     "corsheaders",
-    "rest_framework",
     "drf_yasg",
+    "rest_framework",
     "rest_framework.authtoken",
     "dj_rest_auth",
     "django.contrib.sites",
@@ -64,6 +66,9 @@ INSTALLED_APPS = [
     "users",
     "categories",
     "products",
+    "carts",
+    "wishlists",
+    "orders",
 ]
 
 AUTH_USER_MODEL ='users.User'
@@ -161,6 +166,14 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=600),
 }
 
+# drf-spectacular configuration for API schema generation
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Dass Backend API",
+    "DESCRIPTION": "E-commerce Backend API with Products, Categories, Users, Carts, Wishlists, and Orders",
+    "VERSION": "1.0.0",
+    "SERVE_PERMISSIONS": ["rest_framework.permissions.AllowAny"],
+    "AUTHENTICATION_WHITELIST": ["rest_framework_simplejwt.authentication.JWTAuthentication"],
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
@@ -183,7 +196,13 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "frontend_build/assets"),
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+# Use a manifest-based storage in production (safe for cached builds).
+# For local development we prefer the simpler compressed storage so admin
+# static files are served without requiring `collectstatic` and a manifest.
+if DEBUG:
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
+else:
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")

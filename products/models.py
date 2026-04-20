@@ -27,7 +27,11 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     material = models.CharField(max_length=100, blank=True, null=True)
     weight = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True, help_text="Weight in grams")
-
+    policy1 = models.CharField(max_length=100, blank=True, null=True)
+    policy2= models.CharField(max_length=100, blank=True, null=True)
+    policy3 = models.CharField(max_length=100, blank=True, null=True)
+    policy4 = models.CharField(max_length=100, blank=True, null=True)
+    inStock = models.BooleanField(blank=True, null=True, default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

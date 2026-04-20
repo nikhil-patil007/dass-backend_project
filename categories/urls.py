@@ -1,11 +1,10 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from .views import CategoryPublicViewSet, CategoryAdminViewSet
-
-router = DefaultRouter()
-router.register(r'', CategoryPublicViewSet, basename='public-category')
-router.register(r'admin/categories', CategoryAdminViewSet, basename='admin-category')
+from django.urls import path
+from .views import (
+    CategoryListAPIView,
+    CategoryDetailAPIView,
+)
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('', CategoryListAPIView.as_view(), name='category-list'),
+    path('<uuid:pk>/', CategoryDetailAPIView.as_view(), name='category-detail'),
 ]

@@ -7,7 +7,9 @@ import uuid
 class User(AbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     phone_number= models.CharField(max_length=20, default="", blank=True, null=True)
-
+    name = models.CharField(max_length=100,default="",blank=True,null=True)
+    email = models.EmailField(max_length=255,unique=True)
+    # Do not override the password field from AbstractUser — it must store hashed values.
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
